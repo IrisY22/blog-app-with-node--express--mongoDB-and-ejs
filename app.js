@@ -11,6 +11,9 @@ const PORT = 3030 || process.env.PORT;
 // Connect to DB
 connectDB();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(express.static("public"));
 
 app.use(expressLayout);
