@@ -19,7 +19,7 @@ const authMiddleWare = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.vwrify(token, jwtSecret);
+    const decoded = jwt.verify(token, jwtSecret);
     req.userId = decoded.userId;
     next();
   } catch (error) {
@@ -77,12 +77,27 @@ router.post("/admin", async (req, res) => {
 
 });
 
-// POST Admin - Check Login
+// GET - Admin Dashboard
 
+router.get("/dashboard", authMiddleWare, async (req, res) => {
 
-router.get("/dashboard", async (req, res) => {
+  try {
+    const locals = {
+      title: 'Dashboard',
+      description: 'Simple Blog created with NodeJs, Express & MongoDB.'
+    }
 
-  res.render('admin/dashboard');
+    const data = await Post.find();
+
+    res.render('admin/dashboard', {
+      locals,
+      data,
+      layout: adminLayout
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // POST Admin - Register
@@ -109,6 +124,31 @@ router.post("/register", async (req, res) => {
   }
 
 });
+
+// GET Admin - Create New Post
+
+router.get("/add-post", authMiddleWare, async (req, res) => {
+
+  try {
+    const locals = {
+      title: 'Add Post',
+      description: 'Simple Blog created with NodeJs, Express & MongoDB.'
+    }
+
+    const data = await Post.find();
+
+    res.render('admin/add-post', {
+      locals,
+      layout: adminLayout
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
 
 
 module.exports = router;
