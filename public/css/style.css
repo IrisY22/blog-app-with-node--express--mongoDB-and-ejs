@@ -175,7 +175,7 @@ img {
 }
 
 
-.header-nav ul a:active {
+.header-nav ul a.active {
   color: var(--gray);
 }
 
